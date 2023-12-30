@@ -387,8 +387,12 @@ template <typename T> T inputData(string message) {
  * @return void
  */
 void handleHistory(string data, string result, string rumus, int jenisData) {
+  // Menjalankan inisialisasi fungsi handleHistory
+  debug("handleHistory", "Menjalankan fungsi handleHistory");
+
   // Jika jenisData tidak tersedia, akan keluar dari fungsi
   if (jenisData < 1 || jenisData > 3) {
+    debug("handleHistory", "Proses menyimpan history gagal, jenis data " + to_string(jenisData) + " tidak tersedia");
     cout << "Proses menyimpan history gagal, jenis data tidak tersedia" << endl;
     return;
   }
@@ -411,6 +415,7 @@ void handleHistory(string data, string result, string rumus, int jenisData) {
 
   // Mengubah value jenisData menjadi index historyData
   jenisData--;
+  debug("handleHistory", "Mengubah value jenisData sesuai dengan kategory data (" + to_string(jenisData) + ")");
 
   historyData[jenisData][*indexHistory]->data = data; // Menyimpan data awal ke historyData
   historyData[jenisData][*indexHistory]->result = result; // Menyimpan hasil konversi ke historyData
@@ -418,6 +423,10 @@ void handleHistory(string data, string result, string rumus, int jenisData) {
 
   // indexHistory++ digunakan untuk menambahkan indexHistory sebanyak 1
   (*indexHistory)++;
+  debug("handleHistory", "Menambahkan indexHistory sebanyak 1");
+
+  // Memastikan bahwa program sudah menyimpan data ke history
+  debug("handleHistory", "Berhasil menjalankan fungsi handleHistory");
 }
 
 /**
@@ -428,8 +437,12 @@ void handleHistory(string data, string result, string rumus, int jenisData) {
  * @return void
  */
 void menampilkanHistory(int jenisData) {
+  // Menjalankan inisialisasi fungsi menampilkanHistory
+  debug("menampilkanHistory", "Menjalankan fungsi menampilkanHistory");
+
   // Jika jenisData tidak tersedia, akan keluar dari fungsi
   if (jenisData < 1 || jenisData > 3) {
+    debug("menampilkanHistory", "Proses menampilkan history gagal, jenis data " + to_string(jenisData) + " tidak tersedia");
     cout << "Proses menampilkan history gagal, jenis data tidak tersedia" << endl;
     return;
   }
@@ -449,6 +462,9 @@ void menampilkanHistory(int jenisData) {
   if (jenisData == 1) namaHistory = "Suhu";
   else if (jenisData == 2) namaHistory = "Panjang";
   else if (jenisData == 3) namaHistory = "Berat";
+
+  // Mengecek apakah namaHistory sudah tersimpan atau belum
+  debug("menampilkanHistory", "Nama history: " + namaHistory);
 
   /**
    * historyType = untuk menyimpan jenis history data
@@ -472,10 +488,14 @@ void menampilkanHistory(int jenisData) {
 
   clearScreen(); // Membersihkan layar terminal
 
+  // Menampilkan value inputan user
+  debug("menampilkanHistory", "Inputan user: " + to_string(historyType));
+
   // Ketika user memilih kembali, maka program akan berhenti dan kembali ke menu utama
   if (historyType == 6) return;
   else if (historyType < 1 || historyType > 6) {
     // Ketika user memilih pilihan yang tidak tersedia
+    debug("menampilkahHistory", "Proses menampilkan gagal pilihan " + to_string(historyType) + " tidak tersedia");
     cout << "Proses menampilkan history gagal, pilihan tidak tersedia" << endl;
     return;
   }
@@ -498,6 +518,7 @@ void menampilkanHistory(int jenisData) {
 
   // Mengubah value jenisData menjadi index historyData
   jenisData--;
+  debug("handleHistory", "Mengubah value jenisData sesuai dengan kategory data (" + to_string(jenisData) + ")");
 
   // Menampilkan history data
   if (historyType != 5) {
@@ -510,10 +531,14 @@ void menampilkanHistory(int jenisData) {
     // Ketika indexHistory = 0, maka tidak ada history data
     cout << "Belum ada history yang tersedia" << endl;
     cout << "--------------------------------" << endl;
+    debug("menampilkanHistory", "Tidak ada history yang tersedia, indexHistory: " + to_string(indexHistory) + " loncat ke label ending");
     goto ending; // Loncat ke label ending untuk mengakhiri program
   }
 
   if (historyType == 1) {
+    // Menampilkan pesan "Menampilkan history data dari terlama ke terbaru"
+    debug("menampilkanHistory", "Menampilkan history data dari terlama ke terbaru");
+
     /**
      * Looping sebanyak indexHistory untuk menampilkan history data
      * Mengambil data dari historyData[jenisData][0] yaitu data awal
@@ -526,6 +551,9 @@ void menampilkanHistory(int jenisData) {
       cout << "--------------------------------" << endl;
     }
   } else if (historyType == 2) {
+    // Menampilkan pesan "Menampilkan history data dari terbaru ke terlama"
+    debug("menampilkanHistory", "Menampilkan history data dari terbaru ke terlama");
+
     /**
      * Looping sebanyak indexHistory untuk menampilkan history data
      * Mengambil data dari historyData[jenisData][indexHistory - 1] yaitu data terbaru
@@ -538,8 +566,19 @@ void menampilkanHistory(int jenisData) {
       cout << "--------------------------------" << endl;
     }
   } else if (historyType == 3) {
+    // Menampilkan pesan "Menampilkan history data dari tertinggi ke terendah"
+    debug("menampilkanHistory", "Menampilkan history data dari tertinggi ke terendah");
+
     // Mendeklarasi variable untuk menampung data yang akan diurutkan ke vector data
     vector<float> data;
+    debug("menampilkanHistory", "Mendeklarasi variable untuk menampung data yang akan diurutkan ke vector data");
+
+    // Resizing vector data sebanyak indexHistory
+    data.resize(indexHistory);
+    debug("menampilkanHistory", "Resizing vector data sebanyak " + to_string(indexHistory));
+
+    // Memasukkan data ke vector data dengan looping sebanyak indexHistory
+    debug("menampilkanHistory", "Memasukkan data ke vector data dengan looping sebanyak " + to_string(indexHistory));
 
     /**
      * Melakukan looping sebanyak total indexHistory
@@ -551,6 +590,12 @@ void menampilkanHistory(int jenisData) {
     for (int i = 0; i < indexHistory; i++) {
       data.push_back(stof(historyData[jenisData][i]->result));
     }
+
+    // Berhasil memasukkan data ke vector data
+    debug("menampilkanHistory", "Berhasil memasukkan data ke vector data");
+
+    // Mengurutkan data dari yang terbesar ke terkecil dengan looping sebanyak indexHistory
+    debug("menampilkanHistory", "Mengurutkan data dari yang terbesar ke terkecil dengan looping sebanyak " + to_string(indexHistory));
 
     /**
      * Looping sebanyak total indexHistory
@@ -569,6 +614,12 @@ void menampilkanHistory(int jenisData) {
       }
     }
 
+    // Berhasil mengurutkan data dari yang terbesar ke terkecil
+    debug("menampilkanHistory", "Berhasil mengurutkan data dari yang terbesar ke terkecil");
+
+    // Menampilkan data dari yang terbesar ke terkecil
+    debug("menampilkanHistory", "Menampilkan data dari yang terbesar ke terkecil");
+
     /**
      * Looping sebanyak total indexHistory
      * Mengambil data dari historyData[jenisData][i][1] yaitu hasil konversi
@@ -588,9 +639,23 @@ void menampilkanHistory(int jenisData) {
         }
       }
     }
+
+    // Berhasil menampilkan data dari yang terbesar ke terkecil
+    debug("menampilkanHistory", "Berhasil menampilkan data dari yang terbesar ke terkecil");
   } else if (historyType == 4) {
+     // Menampilkan pesan "Menampilkan history data dari terendah ke tertinggi"
+    debug("menampilkanHistory", "Menampilkan history data dari terendah ke tertinggi");
+
     // Mendeklarasi variable untuk menampung data yang akan diurutkan ke vector data
     vector<float> data;
+    debug("menampilkanHistory", "Mendeklarasi variable untuk menampung data yang akan diurutkan ke vector data");
+
+    // Resizing vector data sebanyak indexHistory
+    data.resize(indexHistory);
+    debug("menampilkanHistory", "Resizing vector data sebanyak " + to_string(indexHistory));
+
+    // Memasukkan data ke vector data dengan looping sebanyak indexHistory
+    debug("menampilkanHistory", "Memasukkan data ke vector data dengan looping sebanyak " + to_string(indexHistory));
 
     /**
      * Melakukan looping sebanyak total indexHistory
@@ -602,6 +667,12 @@ void menampilkanHistory(int jenisData) {
     for (int i = 0; i < indexHistory; i++) {
       data.push_back(stof(historyData[jenisData][i]->result));
     }
+
+    // Berhasil memasukkan data ke vector data
+    debug("menampilkanHistory", "Berhasil memasukkan data ke vector data");
+
+    // Mengurutkan data dari yang terkecil ke terbesar dengan looping sebanyak indexHistory
+    debug("menampilkanHistory", "Mengurutkan data dari yang terkecil ke terbesar dengan looping sebanyak " + to_string(indexHistory));
 
     /**
      * Looping sebanyak total indexHistory
@@ -620,6 +691,12 @@ void menampilkanHistory(int jenisData) {
       }
     }
 
+    // Berhasil mengurutkan data dari yang terkecil ke terbesar
+    debug("menampilkanHistory", "Berhasil mengurutkan data dari yang terkecil ke terbesar");
+
+    // Menampilkan data dari yang terkecil ke terbesar
+    debug("menampilkanHistory", "Menampilkan data dari yang terkecil ke terbesar");
+
     /**
      * Looping sebanyak total indexHistory
      * Mengambil data dari historyData[jenisData][i][1] yaitu hasil konversi
@@ -639,6 +716,9 @@ void menampilkanHistory(int jenisData) {
         }
       }
     }
+
+    // Berhasil menampilkan data dari yang terkecil ke terbesar
+    debug("menampilkanHistory", "Berhasil menampilkan data dari yang terkecil ke terbesar");
   } else {
     // Mendeklarasi variable untuk menampung data yang akan diurutkan ke vector data
     string dataSearch;
