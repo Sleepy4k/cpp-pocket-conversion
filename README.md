@@ -33,3 +33,11 @@ Or you can use bash script
 ~~~bash
   ./run.sh
 ~~~
+
+## Note
+
+To enable debug mode, make variable isDevMode to true
+
+~~~bash
+  33 bool isDevMode = true;
+~~~
